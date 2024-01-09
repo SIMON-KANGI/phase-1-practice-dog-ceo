@@ -24,16 +24,18 @@ function handleBreeds(breed){
         .then(response => response.json())
         .then(data => {
             const imageUrl = data.message;  //get the image of the breed
-        
-
-            ul.innerHTML += `
-                <li>
+            let listItems=document.createElement('li') //create element for list
+         listItems.innerHTML = `
                     <p>${breed}</p>
-                    <img src="${imageUrl}" alt="${breed} width="400px" height="400px" Image"/>
-                </li>
+                    <img src="${imageUrl}" alt="${breed}" width="400px" height="400px" Image"/>
+                
             `;
         })
         .catch(error => console.error('Error fetching breed image:', error));
+ul.appendChild(listItems)
+        listItems.addEventListener('click',()=>{                //when you click on each list the font color changes to orange
+            listItems.querySelector('p').style.color='orange'
+        })
 }
 
     function getBreeds(){
@@ -50,7 +52,6 @@ function handleBreeds(breed){
 
    //filter function to get specific breed
 function handleFilter() {
-    
     let ul = document.getElementById('dog-breeds');
     let select = document.getElementById('breed-dropdown');
 
@@ -68,18 +69,25 @@ function handleFilter() {
                     .then(response => response.json())
                     .then(data => {
                         const imageUrl = data.message;
-                        ul.innerHTML += `
-                            <li>
-                                <p>${breed}</p>
+                        let listItems=document.createElement('li') //create element for list
+                        
+                        listItems.innerHTML += `
+                                <p class="name">${breed}</p>
                                 <img src="${imageUrl}" alt="${breed} Image" width="400px" height="400px"/>
-                            </li>
                         `;
+                        ul.appendChild(listItems)
+                        listItems.addEventListener('click',()=>{        //when you click on each list the font color changes to orange
+                            listItems.querySelector('p').style.color='orange'
+                        })
                     })
                     .catch(error => console.error('Error fetching filtered breed image:', error));
+                  
             });
         })
         .catch(error => console.log(error, 'error fetching breeds'));
 }
+
+
 let select = document.getElementById('breed-dropdown'); 
 //add eventlistener to select element to perform the filter method
     select.addEventListener('change', handleFilter); //select uses the "change" event listener
